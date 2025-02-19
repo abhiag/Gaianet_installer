@@ -10,13 +10,12 @@ echo "2) Install without GPU (For systems without an NVIDIA GPU)"
 echo "3) Restart GaiaNet Node"
 echo "4) Stop GaiaNet Node"
 echo "5) Uninstall GaiaNet Node"
+echo "6) Fix 'Error: Directory /opt/gaianet/ does not exist!' issue"
 echo "==================================================="
 echo "🚀🚀 NOTE: If you have an NVIDIA GPU, keep your computer running for at least 20-24 hours for optimal results. 🚀🚀"
 echo "💰💰 Believe me - You'll farm higher Gaia Points! 💰💰"
 echo "=================================================\n"
 read -p "Enter your choice: " choice
-
-
 
 case $choice in
     1)
@@ -48,7 +47,13 @@ case $choice in
         echo "Uninstalling GaiaNet Node..."
         curl -sSfL 'https://github.com/GaiaNet-AI/gaianet-node/releases/latest/download/uninstall.sh' | bash
         ;;
+    6)
+        echo "Fixing GaiaNet directory issue..."
+        echo 'export PATH=$PATH:/opt/gaianet/' >> ~/.bashrc && source ~/.bashrc
+        echo "Fix applied. Please restart your terminal and try again."
+        ;;
     *)
         echo "Invalid choice. Please run the script again and select a valid option."
         ;;
 esac
+
