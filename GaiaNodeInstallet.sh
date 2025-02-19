@@ -1,22 +1,23 @@
 #!/bin/bash
 
 clear
-echo "============================================="
-echo "     🚀🚀 GAIANET NODE INSTALLER BY GACRYPTO 🚀🚀    "
-echo "============================================="
+echo "==================================================="
+echo " 🚀🚀 GAIANET NODE INSTALLER BY GACRYPTO 🚀🚀    "
+echo "==================================================="
 echo "\nPress a number to perform an action:\n"
 echo "1) Install with NVIDIA GPU (RTX 20/30/40/50 Series Support)"
 echo "2) Install without GPU (For systems without an NVIDIA GPU)"
 echo "3) Restart GaiaNet Node"
 echo "4) Stop GaiaNet Node"
 echo "5) Uninstall GaiaNet Node"
-echo "============================================="
-read -p "Enter your choice: " choice
-
-echo "\n============================================="
+echo "==================================================="
+echo "\n================================================="
 echo "🚀🚀 NOTE: If you have an NVIDIA GPU, keep your computer running for at least 20-24 hours for optimal results. 🚀🚀"
 echo "💰💰 Believe me - You'll farm higher Gaia Points! 💰💰"
-echo "=============================================\n"
+echo "=================================================\n"
+read -p "Enter your choice: " choice
+
+
 
 case $choice in
     1)
