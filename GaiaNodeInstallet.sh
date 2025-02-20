@@ -54,9 +54,10 @@ while true; do
             ;;
         5)
             if screen -list | grep -q "gaiabot"; then
-                echo "Gaiabot screen session already running. Switching now..."
-                screen -d gaiabot
-                screen -r gaiabot
+                read -p "Gaiabot screen session already running. Do you want to switch to it? (yes/no): " switch_choice
+                if [[ "$switch_choice" == "yes" ]]; then
+                    screen -d -r gaiabot
+                fi
             else
                 echo "Starting ChatBot for Non-GPU Users in a new screen session..."
                 screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh && ./gaiabotga.sh'
@@ -65,9 +66,10 @@ while true; do
             ;;
         6)
             if screen -list | grep -q "gaiabot"; then
-                echo "Gaiabot screen session already running. Switching now..."
-                screen -d gaiabot
-                screen -r gaiabot
+                read -p "Gaiabot screen session already running. Do you want to switch to it? (yes/no): " switch_choice
+                if [[ "$switch_choice" == "yes" ]]; then
+                    screen -d -r gaiabot
+                fi
             else
                 echo "Starting ChatBot for GPU NODE Users in a new screen session..."
                 screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh && ./gaiabotga1.sh'
@@ -76,8 +78,7 @@ while true; do
             ;;
         7)
             echo "Switching to Gaiabot screen..."
-            screen -d gaiabot
-            screen -r gaiabot
+            screen -d -r gaiabot
             ;;
         8)
             echo "Returning to GaiaNet Main Menu..."
