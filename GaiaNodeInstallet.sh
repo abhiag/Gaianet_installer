@@ -12,7 +12,7 @@ while true; do
     echo "4) Stop GaiaNet Node"
     echo "5) Chat with Non-GPU Domain (For VPS Users & NON-GPU Users)"
     echo "6) Chat with GPU-Node Domain (Only for GPU NODE Users)"
-    echo "7) Switch to Gaiabot Screen"
+    echo "7) Switch to GaiaChatBot Screen"
     echo "8) Return to GaiaNet Main Menu"
     echo "==================================================="
     echo -e "\e[33m📌 NOTE: If you have an 🎮 NVIDIA GPU, keep your computer running for at least 20-24 hours for Great results. 🚀🚀\e[0m"
