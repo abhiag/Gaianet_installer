@@ -62,7 +62,7 @@ while true; do
                 screen -d gaiabot
                 screen -r gaiabot
             else
-                echo "Starting ChatBot for Non-GPU Users in a new screen session..."
+                echo "Starting ChatBot for VPS & Non-GPU Users in a new screen session..."
                 screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh && ./gaiabotga.sh'
                 echo "ChatBot started in 'gaiabot' screen session. Use option 7 to switch."
             fi
