@@ -13,10 +13,10 @@ echo "5) Uninstall GaiaNet Node"
 echo "6) Chat with Domain (For VPS Users & NON-GPU Users)"
 echo "7) Chat with Domain (Only for GPU NODE Users)"
 echo "==================================================="
-echo "📌 NOTE: If you have an 🎮 NVIDIA GPU, keep your computer running for at least 20-24 hours for optimal results. 🚀🚀"
+echo "📌 NOTE: If you have an 🎮 NVIDIA GPU, keep your computer running for at least 20-24 hours for Great results. 🚀🚀"
 echo "💰💰 Believe me - You'll farm higher Gaia Points! 💰💰"
 echo "==================================================="
-echo " ✅ Still You'll Earn Good Points If you are running only on VPS on Non-GPU Computers! 💰💰"
+echo " ✅ Still You'll Earn Good Points Too If you are running only on VPS on Non-GPU Computers! 💰💰"
 echo "=================================================\n"
 read -p "Enter your choice: " choice
 
