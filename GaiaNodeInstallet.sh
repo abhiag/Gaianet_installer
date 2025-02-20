@@ -64,6 +64,7 @@ while true; do
             ;;
         7)
             echo "Switching to Gaiabot screen..."
+            screen -d gaiabot
             screen -r gaiabot
             ;;
         8)
