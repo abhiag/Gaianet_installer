@@ -53,14 +53,26 @@ while true; do
             gaianet stop
             ;;
         5)
-            echo "Running ChatBot for Non-GPU Users in a screen session..."
-            screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh && ./gaiabotga.sh'
-            echo "ChatBot started in 'gaiabot' screen session. Use option 7 to switch."
+            if screen -list | grep -q "gaiabot"; then
+                echo "Gaiabot screen session already running. Switching now..."
+                screen -d gaiabot
+                screen -r gaiabot
+            else
+                echo "Starting ChatBot for Non-GPU Users in a new screen session..."
+                screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh && ./gaiabotga.sh'
+                echo "ChatBot started in 'gaiabot' screen session. Use option 7 to switch."
+            fi
             ;;
         6)
-            echo "Chatting with Domain (Only for GPU NODE Users) in a screen session..."
-            screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh && ./gaiabotga1.sh'
-            echo "ChatBot started in 'gaiabot' screen session. Use option 7 to switch."
+            if screen -list | grep -q "gaiabot"; then
+                echo "Gaiabot screen session already running. Switching now..."
+                screen -d gaiabot
+                screen -r gaiabot
+            else
+                echo "Starting ChatBot for GPU NODE Users in a new screen session..."
+                screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh && ./gaiabotga1.sh'
+                echo "ChatBot started in 'gaiabot' screen session. Use option 7 to switch."
+            fi
             ;;
         7)
             echo "Switching to Gaiabot screen..."
