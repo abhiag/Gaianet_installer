@@ -10,8 +10,8 @@ while true; do
     echo "2) Install without GPU (For systems without an NVIDIA GPU)"
     echo "3) Restart GaiaNet Node"
     echo "4) Stop GaiaNet Node"
-    echo "5) Chat with Non-GPU Domain (For VPS Users & NON-GPU Users)"
-    echo "6) Chat with GPU NODE Domain (Only for GPU NODE Users)"
+    echo "5) Chat with Domain (For VPS Users & NON-GPU Users)"
+    echo "6) Chat with Domain (Only for GPU NODE Users)"
     echo "7) Switch to Gaiabot Screen"
     echo "8) Return to GaiaNet Main Menu"
     echo "==================================================="
@@ -23,6 +23,10 @@ while true; do
     echo " ⚠️  WARNING: Uninstalling will completely remove GaiaNet Node from your system!"
     echo "    Proceed only if you are sure!"
     echo "9) 🗑️ Uninstall GaiaNet Node (Risky Operation)"
+    echo "==================================================="
+    echo "🌍 Follow GA Crypto for Updates & Support:"
+    echo "🔹 Telegram: https://t.me/GaCryptOfficial"
+    echo "🔹 Twitter/X: @GACryptoO"
     echo "==================================================="
     read -p "Enter your choice: " choice
 
@@ -54,10 +58,9 @@ while true; do
             ;;
         5)
             if screen -list | grep -q "gaiabot"; then
-                read -p "Gaiabot screen session already running. Do you want to switch to it? (yes/no): " switch_choice
-                if [[ "$switch_choice" == "yes" ]]; then
-                    screen -d -r gaiabot
-                fi
+                echo "Gaiabot screen session already running. Switching now..."
+                screen -d gaiabot
+                screen -r gaiabot
             else
                 echo "Starting ChatBot for Non-GPU Users in a new screen session..."
                 screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh && ./gaiabotga.sh'
@@ -66,10 +69,9 @@ while true; do
             ;;
         6)
             if screen -list | grep -q "gaiabot"; then
-                read -p "Gaiabot screen session already running. Do you want to switch to it? (yes/no): " switch_choice
-                if [[ "$switch_choice" == "yes" ]]; then
-                    screen -d -r gaiabot
-                fi
+                echo "Gaiabot screen session already running. Switching now..."
+                screen -d gaiabot
+                screen -r gaiabot
             else
                 echo "Starting ChatBot for GPU NODE Users in a new screen session..."
                 screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh && ./gaiabotga1.sh'
@@ -78,7 +80,8 @@ while true; do
             ;;
         7)
             echo "Switching to Gaiabot screen..."
-            screen -d -r gaiabot
+            screen -d gaiabot
+            screen -r gaiabot
             ;;
         8)
             echo "Returning to GaiaNet Main Menu..."
