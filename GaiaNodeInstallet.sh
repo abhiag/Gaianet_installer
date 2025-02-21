@@ -107,8 +107,29 @@ while true; do
     screen -r gaiabot
     ;;
         6)
-            echo "Switching to Gaiabot screen..."
-            screen -d -r gaiabot
+            echo "Checking for active screen sessions..."
+            mapfile -t active_screens < <(screen -list | grep -o '[0-9]*\.[^ ]*')
+            
+            if [[ ${#active_screens[@]} -gt 0 ]]; then
+                echo "Active screens detected:"
+                for i in "${!active_screens[@]}"; do
+                    screen_id=$(echo "${active_screens[i]}" | cut -d. -f1)
+                    screen_name=$(echo "${active_screens[i]}" | cut -d. -f2)
+                    echo "$((i+1))) Screen ID: $screen_id - Name: $screen_name"
+                done
+                echo "Enter the number to switch to the corresponding screen (or type 'Exit' to return to the main menu):"
+                read screen_choice
+                if [[ "$screen_choice" == "Exit" ]]; then
+                    echo "❌ Exiting..."
+                    return
+                elif [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
+                    selected_screen=${active_screens[screen_choice-1]}
+                    screen_id=$(echo "$selected_screen" | cut -d. -f1)
+                    echo "Switching to screen ID $screen_id..."
+                    screen -d -r "$screen_id"
+                else
+                    echo "Invalid selection. Returning to menu."
+                fi
             ;;
         7)
             echo "Returning to GaiaNet Main Menu..."
