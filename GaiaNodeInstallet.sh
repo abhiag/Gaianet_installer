@@ -80,8 +80,10 @@ while true; do
                         echo "🚀 Starting a new GaiaBot session..."
                         break
                     elif [[ "$screen_choice" == "Exit" ]]; then
-                        echo "❌ Exiting..."
-                        exit
+                        rm -rf GaiaNodeInstallet.sh
+                        curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstallet.sh
+                        chmod +x GaiaNodeInstallet.sh
+                        exec ./GaiaNodeInstallet.sh  # Replace current process with the installer
                     elif [[ -n "$screen_choice" ]]; then
                         echo "🔄 Switching to selected screen: $screen_choice"
                         screen -r "$screen_choice"
