@@ -15,18 +15,18 @@ while true; do
     echo -e "\n\e[1mPress a number to perform an action:\e[0m\n"
     echo -e "1) \e[1;36m 🎮 Install Gaianet For NVIDIA GPU (RTX 20/30/40/50 Series Support) \e[0m"
     echo -e "2) \e[1;36m 🖥️ Install Gaianet For VPS & Without NVIDIA GPU Computers \e[0m"
-    echo -e "5) \e[1;94m 🤖 Chat with Gaia Domain Automatically \e[0m"
-    echo -e "6) \e[1;95m 🔍 Switch to GaiaChatBot Screen \e[0m"
+    echo -e "3) \e[1;94m 🤖 Chat with Gaia Domain Automatically \e[0m"
+    echo -e "4) \e[1;95m 🔍 Switch to GaiaChatBot Screen \e[0m"
     echo "==================================================="
-    echo -e "3) \e[1;33m 🔄 Restart GaiaNet Node \e[0m"
-    echo -e "4) \e[1;33m ⏹️ Stop GaiaNet Node \e[0m"
+    echo -e "5) \e[1;33m 🔄 Restart GaiaNet Node \e[0m"
+    echo -e "6) \e[1;33m ⏹️ Stop GaiaNet Node \e[0m"
     echo "==================================================="
     echo -e "\e[1;31m⚠️  DANGER ZONE:\e[0m"
-    echo -e "8) \e[1;31m 🗑️ Uninstall GaiaNet Node (Risky Operation) \e[0m"
+    echo -e "7) \e[1;31m 🗑️ Uninstall GaiaNet Node (Risky Operation) \e[0m"
     echo "==================================================="
 
     echo -e "\e[1;31m❌ TERMINATE ALL ACTIVE SCREENS:\e[0m"
-    echo -e "9) \e[1;31m 🚨 Terminate All Active Screens \e[0m"
+    echo -e "8) \e[1;31m 🚨 Terminate All Active Screens \e[0m"
     echo "==================================================="
 
     read -p "Enter your choice: " choice
@@ -46,7 +46,7 @@ while true; do
             chmod +x Gaia_gpu_nongpu.sh
             ./Gaia_gpu_nongpu.sh
             ;;
-        5)
+        3)
             echo "Detecting system configuration..."
 
             # Check if GaiaNet is installed
@@ -118,7 +118,7 @@ while true; do
             sleep 2
             screen -r gaiabot
             ;;
-        6)
+        4)
             echo "Checking for active screen sessions..."
             mapfile -t active_screens < <(screen -list | grep -o '[0-9]*\.[^ ]*')
 
@@ -152,24 +152,18 @@ while true; do
                 break  # Exit the loop if no screens are active
             fi
             ;;
-        3)
+        5)
             echo "Restarting GaiaNet Node..."
             gaianet stop
             gaianet init
             gaianet start
             gaianet info
             ;;
-        4)
+        6)
             echo "Stopping GaiaNet Node..."
             gaianet stop
             ;;
         7)
-            echo "Returning to GaiaNet Main Menu..."
-            rm -rf ~/GaiaNodeInstaller.sh
-            curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstallet.sh && chmod +x GaiaNodeInstallet.sh && ./GaiaNodeInstallet.sh
-            exit
-            ;;
-        8)
             echo "⚠️ WARNING: This will completely remove GaiaNet Node from your system!"
             read -p "Are you sure you want to proceed? (yes/no) " confirm
             if [[ "$confirm" == "yes" ]]; then
@@ -179,7 +173,7 @@ while true; do
                 echo "Uninstallation aborted."
             fi
             ;;
-        9)
+        8)
             echo -e "\e[31m🚨 WARNING: This will terminate all active 'gaiabot' screen sessions!\e[0m"
             read -p "Are you sure you want to proceed? (yes/no) " confirm
 
