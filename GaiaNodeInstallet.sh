@@ -61,7 +61,7 @@ while true; do
         5)
             echo "Detecting system configuration..."
             if command -v nvcc &> /dev/null || command -v nvidia-smi &> /dev/null; then
-                echo "✅ NVIDIA GPU detected. Running GPU-optimized chat..."
+                echo "✅ NVIDIA GPU detected. Running GPU-optimized Domain chat..."
                 rm -rf ~/gaiabotga1.sh
                 screen -dmS gaiabot bash -c '
                 curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh;
@@ -71,7 +71,7 @@ while true; do
                     echo "❌ Error: Failed to download gaiabotga1.sh."
                 fi'
             else
-                echo "⚠️ No GPU detected. Running Non-GPU Chat Bot..."
+                echo "⚠️ No GPU detected. ✅ Running Non-GPU Domain Chat..."
                 rm -rf ~/gaiabotga.sh
                 screen -dmS gaiabot bash -c '
                 curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh;
