@@ -33,7 +33,7 @@ while true; do
 
     read -p "Enter your choice: " choice
 
-    case $choice in
+        case $choice in
         1)
             echo "Installing GaiaNet with NVIDIA GPU support..."
             rm -rf Gaia_gpu_nongpu.sh
@@ -61,31 +61,50 @@ while true; do
             ;;
         5|6)
             echo "Checking for active screen sessions..."
-            mapfile -t active_screens < <(screen -ls | grep -o '[0-9]*\.[^ ]*')
+            mapfile -t active_screens < <(screen -list | grep -o '[0-9]*\.[^ ]*')
+
             if [[ ${#active_screens[@]} -gt 0 ]]; then
-                echo "🔍 Active screens detected:"
+                echo "Active screens detected:"
                 for i in "${!active_screens[@]}"; do
                     screen_id=$(echo "${active_screens[i]}" | cut -d. -f1)
                     screen_name=$(echo "${active_screens[i]}" | cut -d. -f2)
                     echo "$((i+1))) Screen ID: $screen_id - Name: $screen_name"
                 done
-                echo -e "\nEnter a number to switch to an existing screen, or just press Enter to create a new session:"
+                echo "Enter the number to switch to the corresponding screen:"
                 read screen_choice
+                if [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
+                    selected_screen=${active_screens[screen_choice-1]}
+                    screen_id=$(echo "$selected_screen" | cut -d. -f1)
+                    echo "Switching to screen ID $screen_id..."
+                    screen -d -r "$screen_id"
+                else
+                    echo "Invalid selection. Returning to menu."
+                fi
             else
-                echo "🚀 No active screens found. Creating a new GaiaChatBot session..."
-                screen_choice=""
-            fi
-            if [[ -z "$screen_choice" ]]; then
-                screen -dmS gaiabot bash -c 'curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh && ./gaiabotga.sh'
-                echo "✅ New GaiaChatBot session started. Switching automatically..."
-                screen -x -r gaiabot
-            elif [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
-                selected_screen=${active_screens[screen_choice-1]}
-                screen_id=$(echo "$selected_screen" | cut -d. -f1)
-                echo "🔄 Switching to screen ID $screen_id..."
-                screen -x -r "$screen_id"
-            else
-                echo "❌ Invalid selection. Returning to menu."
+                echo "No active screens found. Starting a new session..."
+                
+                # Detect if the system has an NVIDIA GPU
+                if command -v nvcc &> /dev/null || command -v nvidia-smi &> /dev/null; then
+                    echo "✅ NVIDIA GPU detected. Running GPU-optimized chat..."
+                    [ -f ~/gaiabotga1.sh ] && rm -rf ~/gaiabotga1.sh
+                    screen -dmS gaiabot bash -c '
+                    curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh;
+                    if [ -f "gaiabotga1.sh" ]; then
+                        ./gaiabotga1.sh
+                    else
+                        echo "❌ Error: Failed to download gaiabotga1.sh."
+                    fi'
+                else
+                    echo "⚠️ No GPU detected. Running non-GPU chat..."
+                    [ -f ~/gaiabotga.sh ] && rm -rf ~/gaiabotga.sh
+                    screen -dmS gaiabot bash -c '
+                    curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh;
+                    if [ -f "gaiabotga.sh" ]; then
+                        ./gaiabotga.sh
+                    else
+                        echo "❌ Error: Failed to download gaiabotga.sh."
+                    fi'
+                fi
             fi
             ;;
         7)
@@ -94,8 +113,8 @@ while true; do
             ;;
         8)
             echo "Returning to GaiaNet Main Menu..."
-            rm -rf GaiaNodeInstallet.sh 
-            curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstallet.sh && chmod +x GaiaNodeInstallet.sh && ./GaiaNodeInstallet.sh
+            rm -rf GaiaNodeInstaller.sh
+            curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstaller.sh && chmod +x GaiaNodeInstaller.sh && ./GaiaNodeInstaller.sh
             exit
             ;;
         9)
@@ -107,11 +126,6 @@ while true; do
             else
                 echo "Uninstallation aborted."
             fi
-            ;;
-        10)
-            echo "❌ Terminating all active screen sessions..."
-            screen -ls | awk '/[0-9]+\./ {print $1}' | xargs -I {} screen -X -S {} quit
-            echo "✅ All active screens terminated."
             ;;
         *)
             echo "Invalid choice. Please try again."
