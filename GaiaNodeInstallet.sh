@@ -15,43 +15,9 @@ while true; do
     echo -e "\n\e[1mPress a number to perform an action:\e[0m\n"
     echo -e "1) \e[1;36m 🎮 Install Gaianet For NVIDIA GPU (RTX 20/30/40/50 Series Support) \e[0m"
     echo -e "2) \e[1;36m 🖥️ Install Gaianet For VPS & Without NVIDIA GPU Computers \e[0m"
-    echo -e "3) \e[1;33m 🔄 Restart GaiaNet Node \e[0m"
-    echo -e "4) \e[1;33m ⏹️ Stop GaiaNet Node \e[0m"
     echo -e "5) \e[1;94m 🤖 Chat with Gaia Domain Automatically \e[0m"
     echo -e "6) \e[1;95m 🔍 Switch to GaiaChatBot Screen \e[0m"
-    echo -e "7) \e[1;95m 🔙 Return to GaiaNet Main Menu \e[0m"
-
     echo "==================================================="
-    echo -e "\e[1;31m⚠️  DANGER ZONE:\e[0m"
-    echo -e "8) \e[1;31m 🗑️ Uninstall GaiaNet Node (Risky Operation) \e[0m"
-    echo "==================================================="
-
-    echo -e "\e[1;31m❌ TERMINATE ALL ACTIVE SCREENS:\e[0m"
-    echo -e "9) \e[1;31m 🚨 Terminate All Active Screens \e[0m"
-    echo "==================================================="
-
-    read -p "Enter your choice: " choice
-
-    #!/bin/bash
-
-while true; do
-    clear
-    echo "==================================================="
-    echo -e "\e[5;1;36m 🚀🚀 GAIANET NODE INSTALLER BY GACRYPTO 🚀🚀 \e[0m"
-    echo "==================================================="
-
-    echo -e "\e[1;33m📌 NOTE: If you have an 🎮 NVIDIA GPU, keep your computer running for at least 20-24 hours for great results. 🚀🚀\e[0m"
-    echo -e "\e[1;33m💰💰 Believe me - You'll farm higher Gaia Points! 💰💰\e[0m"
-    echo "==================================================="
-    echo -e "\e[1;32m✅ You'll still earn good points if running on VPS or non-GPU computers! 💰💰\e[0m"
-    echo "==================================================="
-
-    echo -e "\n\e[1mPress a number to perform an action:\e[0m\n"
-    echo -e "1) \e[1;36m 🎮 Install Gaianet For NVIDIA GPU (RTX 20/30/40/50 Series Support) \e[0m"
-    echo -e "2) \e[1;36m 🖥️ Install Gaianet For VPS & Without NVIDIA GPU Computers \e[0m"
-    echo -e "5) \e[1;94m 🤖 Chat with Gaia Domain Automatically \e[0m"
-    echo -e "6) \e[1;95m 🔍 Switch to GaiaChatBot Screen \e[0m"
-    echo -e "==================================================="
     echo -e "3) \e[1;33m 🔄 Restart GaiaNet Node \e[0m"
     echo -e "4) \e[1;33m ⏹️ Stop GaiaNet Node \e[0m"
     echo "==================================================="
@@ -213,28 +179,27 @@ while true; do
                 echo "Uninstallation aborted."
             fi
             ;;
+        9)
+            echo -e "\e[31m🚨 WARNING: This will terminate all active 'gaiabot' screen sessions!\e[0m"
+            read -p "Are you sure you want to proceed? (yes/no) " confirm
 
-             9)
-    echo -e "\e[31m🚨 WARNING: This will terminate all active 'gaiabot' screen sessions!\e[0m"
-    read -p "Are you sure you want to proceed? (yes/no) " confirm
+            if [[ "$confirm" == "yes" ]]; then
+                echo "🔴 Terminating and wiping all 'gaiabot' screen sessions..."
+                
+                # Find and kill all 'gaiabot' screen sessions
+                screen -ls | awk '/[0-9]+\./ && /gaiabot/ {print $1}' | xargs -r screen -X -S kill
 
-    if [[ "$confirm" == "yes" ]]; then
-        echo "🔴 Terminating and wiping all 'gaiabot' screen sessions..."
-        
-        # Find and kill all 'gaiabot' screen sessions
-        screen -ls | awk '/[0-9]+\./ && /gaiabot/ {print $1}' | xargs -r screen -X -S kill
+                # Wipe all 'gaiabot' screen session sockets
+                find /var/run/screen -type s -name "*gaiabot*" -exec rm -rf {} + 2>/dev/null
 
-        # Wipe all 'gaiabot' screen session sockets
-        find /var/run/screen -type s -name "*gaiabot*" -exec rm -rf {} + 2>/dev/null
-
-        echo -e "\e[32m✅ All 'gaiabot' screen sessions have been terminated and wiped.\e[0m"
-    else
-        echo "❌ Operation canceled."
-    fi
-    ;;
-*)
-    echo "Invalid choice. Please try again."
-    ;;
-esac
-read -p "Press Enter to return to the main menu..."
+                echo -e "\e[32m✅ All 'gaiabot' screen sessions have been terminated and wiped.\e[0m"
+            else
+                echo "❌ Operation canceled."
+            fi
+            ;;
+        *)
+            echo "Invalid choice. Please try again."
+            ;;
+    esac
+    read -p "Press Enter to return to the main menu..."
 done
