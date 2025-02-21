@@ -60,34 +60,7 @@ while true; do
             gaianet stop
             ;;
         5|6)
-            echo "Checking for active screen sessions..."
-            mapfile -t active_screens < <(screen -list | grep -o '[0-9]*\.[^ ]*')
-
-            if [[ ${#active_screens[@]} -gt 0 ]]; then
-                echo "Active screens detected:"
-                for i in "${!active_screens[@]}"; do
-                    screen_id=$(echo "${active_screens[i]}" | cut -d. -f1)
-                    screen_name=$(echo "${active_screens[i]}" | cut -d. -f2)
-                    echo "$((i+1))) Screen ID: $screen_id - Name: $screen_name"
-                done
-                echo "Enter the number to switch to the corresponding screen or Press Enter to create a new one:"
-                read screen_choice
-                if [[ -z "$screen_choice" ]]; then
-                    echo "No selection made. Creating a new session..."
-                elif [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
-                    selected_screen=${active_screens[screen_choice-1]}
-                    screen_id=$(echo "$selected_screen" | cut -d. -f1)
-                    echo "Switching to screen ID $screen_id..."
-                    screen -d -r "$screen_id"
-                    continue
-                else
-                    echo "Invalid selection. Returning to menu."
-                    continue
-                fi
-            else
-                echo "No active screens found. Creating a new session..."
-            fi
-
+            
             # Detect GPU presence and start the appropriate chat
             if command -v nvcc &> /dev/null || command -v nvidia-smi &> /dev/null; then
                 echo "✅ NVIDIA GPU detected. Running GPU-optimized chat..."
