@@ -34,77 +34,56 @@ while true; do
     read -p "Enter your choice: " choice
 
         case $choice in
-        1)
-            echo "Installing GaiaNet with NVIDIA GPU support..."
-            rm -rf Gaia_gpu_nongpu.sh
-            curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/Gaia_gpu_nongpu.sh
-            chmod +x Gaia_gpu_nongpu.sh
-            ./Gaia_gpu_nongpu.sh
-            ;;
-        2)
-            echo "Installing GaiaNet without GPU support..."
-            rm -rf Gaia_gpu_nongpu.sh
-            curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/Gaia_gpu_nongpu.sh
-            chmod +x Gaia_gpu_nongpu.sh
-            ./Gaia_gpu_nongpu.sh
-            ;;
-        3)
-            echo "Restarting GaiaNet Node..."
-            gaianet stop
-            gaianet init
-            gaianet start
-            gaianet info
-            ;;
-        4)
-            echo "Stopping GaiaNet Node..."
-            gaianet stop
-            ;;
         5|6)
             echo "Checking for active screen sessions..."
             mapfile -t active_screens < <(screen -list | grep -o '[0-9]*\.[^ ]*')
 
             if [[ ${#active_screens[@]} -gt 0 ]]; then
-                echo "Active screens detected:"
+                echo " 🔎 Active screens detected:"
                 for i in "${!active_screens[@]}"; do
                     screen_id=$(echo "${active_screens[i]}" | cut -d. -f1)
                     screen_name=$(echo "${active_screens[i]}" | cut -d. -f2)
                     echo "$((i+1))) Screen ID: $screen_id - Name: $screen_name"
                 done
-                echo "Enter the number to switch to the corresponding screen:"
+                echo "Enter the number to switch to the corresponding screen or Press Enter to create a new one:"
                 read screen_choice
-                if [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
+                if [[ -z "$screen_choice" ]]; then
+                    echo "No selection made. Creating a new session..."
+                elif [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
                     selected_screen=${active_screens[screen_choice-1]}
                     screen_id=$(echo "$selected_screen" | cut -d. -f1)
                     echo "Switching to screen ID $screen_id..."
                     screen -d -r "$screen_id"
+                    continue
                 else
                     echo "Invalid selection. Returning to menu."
+                    continue
                 fi
             else
-                echo "No active screens found. Starting a new session..."
-                
-                # Detect if the system has an NVIDIA GPU
-                if command -v nvcc &> /dev/null || command -v nvidia-smi &> /dev/null; then
-                    echo "✅ NVIDIA GPU detected. Running GPU-optimized chat..."
-                    [ -f ~/gaiabotga1.sh ] && rm -rf ~/gaiabotga1.sh
-                    screen -dmS gaiabot bash -c '
-                    curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh;
-                    if [ -f "gaiabotga1.sh" ]; then
-                        ./gaiabotga1.sh
-                    else
-                        echo "❌ Error: Failed to download gaiabotga1.sh."
-                    fi'
+                echo "No active screens found. Creating a new session..."
+            fi
+
+            # Detect GPU presence and start the appropriate chat
+            if command -v nvcc &> /dev/null || command -v nvidia-smi &> /dev/null; then
+                echo "✅ NVIDIA GPU detected. Running GPU-optimized chat..."
+                [ -f ~/gaiabotga1.sh ] && rm -rf ~/gaiabotga1.sh
+                screen -dmS gaiabot bash -c '
+                curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh;
+                if [ -f "gaiabotga1.sh" ]; then
+                    ./gaiabotga1.sh
                 else
-                    echo "⚠️ No GPU detected. Running non-GPU chat..."
-                    [ -f ~/gaiabotga.sh ] && rm -rf ~/gaiabotga.sh
-                    screen -dmS gaiabot bash -c '
-                    curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh;
-                    if [ -f "gaiabotga.sh" ]; then
-                        ./gaiabotga.sh
-                    else
-                        echo "❌ Error: Failed to download gaiabotga.sh."
-                    fi'
-                fi
+                    echo "❌ Error: Failed to download gaiabotga1.sh."
+                fi'
+            else
+                echo "⚠️ No GPU detected. Running non-GPU chat..."
+                [ -f ~/gaiabotga.sh ] && rm -rf ~/gaiabotga.sh
+                screen -dmS gaiabot bash -c '
+                curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh;
+                if [ -f "gaiabotga.sh" ]; then
+                    ./gaiabotga.sh
+                else
+                    echo "❌ Error: Failed to download gaiabotga.sh."
+                fi'
             fi
             ;;
         7)
@@ -117,19 +96,10 @@ while true; do
             curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstaller.sh && chmod +x GaiaNodeInstaller.sh && ./GaiaNodeInstaller.sh
             exit
             ;;
-        9)
-            echo "⚠️ WARNING: This will completely remove GaiaNet Node from your system!"
-            read -p "Are you sure you want to proceed? (yes/no) " confirm
-            if [[ "$confirm" == "yes" ]]; then
-                echo "🗑️ Uninstalling GaiaNet Node..."
-                curl -sSfL 'https://github.com/GaiaNet-AI/gaianet-node/releases/latest/download/uninstall.sh' | bash
-            else
-                echo "Uninstallation aborted."
-            fi
-            ;;
         *)
             echo "Invalid choice. Please try again."
             ;;
     esac
     read -p "Press Enter to return to the main menu..."
 done
+
