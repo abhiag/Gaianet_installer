@@ -22,10 +22,10 @@ while true; do
     echo -e "5) \e[1;33m 🔄 Restart GaiaNet Node \e[0m"
     echo -e "6) \e[1;33m ⏹️ Stop GaiaNet Node \e[0m"
     echo "==================================================="
-    
-    echo -e "7) \e[1;36m 🔍 Check Your Gaia Node ID & Device ID \e[0m"
+
+    echo -e "7) \e[1;36m 🔍 Press to check Your Gaia Node ID & Device ID \e[0m"
     echo "==================================================="
-    
+
     echo -e "\e[1;31m⚠️  DANGER ZONE:\e[0m"
     echo -e "8) \e[1;31m 🗑️ Uninstall GaiaNet Node (Risky Operation) \e[0m"
     echo "==================================================="
@@ -157,6 +157,17 @@ while true; do
                 break  # Exit the loop if no screens are active
             fi
             ;;
+        5)
+            echo "Restarting GaiaNet Node..."
+            gaianet stop
+            gaianet init
+            gaianet start
+            gaianet info
+            ;;
+        6)
+            echo "Stopping GaiaNet Node..."
+            gaianet stop
+            ;;
         7)
             # Display Gaia Node and Device ID
             echo -e "Checking Your Gaia Node ID & Device ID..."
@@ -168,17 +179,6 @@ while true; do
             fi
             ;;
         8)
-            echo "Restarting GaiaNet Node..."
-            gaianet stop
-            gaianet init
-            gaianet start
-            gaianet info
-            ;;
-        9)
-            echo "Stopping GaiaNet Node..."
-            gaianet stop
-            ;;
-        10)
             echo "⚠️ WARNING: This will completely remove GaiaNet Node from your system!"
             read -p "Are you sure you want to proceed? (yes/no) " confirm
             if [[ "$confirm" == "yes" ]]; then
@@ -188,7 +188,7 @@ while true; do
                 echo "Uninstallation aborted."
             fi
             ;;
-        11)
+        9)
             echo -e "\e[31m🚨 WARNING: This will terminate all active 'gaiabot' screen sessions!\e[0m"
             read -p "Are you sure you want to proceed? (yes/no) " confirm
 
