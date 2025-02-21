@@ -112,7 +112,7 @@ while true; do
             read -p "Are you sure you want to proceed? (yes/no) " confirm
             if [[ "$confirm" == "yes" ]]; then
                 echo "🔴 Terminating all active screen sessions..."
-                screen -ls | awk '/[0-9]+\./ {print $1}' | xargs -r screen -X -S kill
+                screen -ls | grep gaiabot | awk '{print $1}' | xargs -r -I {} sh -c 'screen -S {} -X quit && screen -wipe {}'
                 echo -e "\e[32m✅ All screen sessions have been terminated.\e[0m"
             else
                 echo "❌ Operation canceled."
