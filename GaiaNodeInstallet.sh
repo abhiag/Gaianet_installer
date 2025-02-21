@@ -135,7 +135,7 @@ while true; do
         7)
             echo "Returning to GaiaNet Main Menu..."
             rm -rf ~/GaiaNodeInstaller.sh
-            curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstaller.sh && chmod +x GaiaNodeInstaller.sh && ./GaiaNodeInstaller.sh
+            curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstallet.sh && chmod +x GaiaNodeInstallet.sh && ./GaiaNodeInstallet.sh
             exit
             ;;
         8)
