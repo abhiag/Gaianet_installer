@@ -58,30 +58,38 @@ while true; do
             ;;
         5|6)
             echo "Checking for active screen sessions..."
-            mapfile -t active_screens < <(screen -list | grep -o '[0-9]*\.[^ ]*')
             
+            # Fetch active screens and store in an array
+            mapfile -t active_screens < <(screen -ls | grep -o '[0-9]*\.[^ ]*')
+
             if [[ ${#active_screens[@]} -gt 0 ]]; then
-                echo "Active screens detected:"
+                echo "🔍 Active screens detected:"
                 for i in "${!active_screens[@]}"; do
                     screen_id=$(echo "${active_screens[i]}" | cut -d. -f1)
                     screen_name=$(echo "${active_screens[i]}" | cut -d. -f2)
                     echo "$((i+1))) Screen ID: $screen_id - Name: $screen_name"
                 done
-                echo "Enter the number to switch to the corresponding screen:"
+                
+                # Prompt user for selection
+                echo -e "\nEnter a number to switch to an existing screen, or just press Enter to create a new session:"
                 read screen_choice
-                if [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
-                    selected_screen=${active_screens[screen_choice-1]}
-                    screen_id=$(echo "$selected_screen" | cut -d. -f1)
-                    echo "Switching to screen ID $screen_id..."
-                    screen -d -r "$screen_id"
-                else
-                    echo "Invalid selection. Returning to menu."
-                fi
             else
-                echo "No active screens found. Starting a new session..."
-                screen -dmS gaiabot bash -c 'rm -rf gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh && ./gaiabotga.sh'
-                echo "New GaiaChatBot session started. Switching automatically."
-                screen -d -r gaiabot
+                echo "🚀 No active screens found. Creating a new GaiaChatBot session..."
+                screen_choice=""
+            fi
+
+            # If user presses Enter, create a new session
+            if [[ -z "$screen_choice" ]]; then
+                screen -dmS gaiabot bash -c 'curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh && ./gaiabotga.sh'
+                echo "✅ New GaiaChatBot session started. Switching automatically..."
+                screen -x -r gaiabot
+            elif [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
+                selected_screen=${active_screens[screen_choice-1]}
+                screen_id=$(echo "$selected_screen" | cut -d. -f1)
+                echo "🔄 Switching to screen ID $screen_id..."
+                screen -x -r "$screen_id"
+            else
+                echo "❌ Invalid selection. Returning to menu."
             fi
             ;;
         7)
