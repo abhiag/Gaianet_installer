@@ -148,21 +148,29 @@ while true; do
                 echo "Uninstallation aborted."
             fi
             ;;
-        9)
-            echo -e "\e[31m🚨 WARNING: This will terminate all active screen sessions!\e[0m"
-            read -p "Are you sure you want to proceed? (yes/no) " confirm
-            if [[ "$confirm" == "yes" ]]; then
-                echo "🔴 Terminating all active screen sessions..."
-                screen -ls | awk '/[0-9]+\./ {print $1}' | xargs -r screen -X -S kill
-                echo -e "\e[32m✅ All screen sessions have been terminated.\e[0m"
-            else
-                echo "❌ Operation canceled."
-            fi
-            ;;
-        *)
-            echo "Invalid choice. Please try again."
-            ;;
-    esac
-    read -p "Press Enter to return to the main menu..."
+     9)
+    echo -e "\e[31m🚨 WARNING: This will terminate all active 'gaiabot' screen sessions!\e[0m"
+    read -p "Are you sure you want to proceed? (yes/no) " confirm
+
+    if [[ "$confirm" == "yes" ]]; then
+        echo "🔴 Terminating and wiping all 'gaiabot' screen sessions..."
+        
+        # Find and kill all 'gaiabot' screen sessions
+        screen -ls | awk '/[0-9]+\./ && /gaiabot/ {print $1}' | xargs -r screen -X -S kill
+
+        # Wipe all 'gaiabot' screen session sockets
+        find /var/run/screen -type s -name "*gaiabot*" -exec rm -rf {} + 2>/dev/null
+
+        echo -e "\e[32m✅ All 'gaiabot' screen sessions have been terminated and wiped.\e[0m"
+    else
+        echo "❌ Operation canceled."
+    fi
+    ;;
+*)
+    echo "Invalid choice. Please try again."
+    ;;
+esac
+read -p "Press Enter to return to the main menu..."
 done
+
 
