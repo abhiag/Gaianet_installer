@@ -100,7 +100,7 @@ while true; do
                     echo "❌ Error: Failed to download gaiabotga1.sh."
                 fi'
             else
-                echo "⚠️ No GPU detected. Running non-GPU chat..."
+                echo "⚠️ No GPU detected. Run Non-GPU Domain BOT..."
                 rm -rf ~/gaiabotga.sh
                 screen -dmS gaiabot bash -c '
                 curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh;
