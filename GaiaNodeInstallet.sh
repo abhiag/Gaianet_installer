@@ -3,28 +3,34 @@
 while true; do
     clear
     echo "==================================================="
-    echo -e " \e[36m🚀🚀 GAIANET NODE INSTALLER BY GACRYPTO 🚀🚀\e[0m"
+    echo -e "\e[5;1;36m 🚀🚀 GAIANET NODE INSTALLER BY GACRYPTO 🚀🚀 \e[0m"
     echo "==================================================="
-    echo -e "\e[33m📌 NOTE: If you have an 🎮 NVIDIA GPU, keep your computer running for at least 20-24 hours for Great results. 🚀🚀\e[0m"
-    echo -e "\e[33m💰💰 Believe me - You'll farm higher Gaia Points! 💰💰\e[0m"
+
+    echo -e "\e[1;33m📌 NOTE: If you have an 🎮 NVIDIA GPU, keep your computer running for at least 20-24 hours for Great results. 🚀🚀\e[0m"
+    echo -e "\e[1;33m💰💰 Believe me - You'll farm higher Gaia Points! 💰💰\e[0m"
     echo "==================================================="
-    echo -e "\e[1;5;32m✅ Still You'll Earn Good Points Too If you are running only on VPS on Non-GPU Computers! 💰💰\e[0m"
+    echo -e "\e[1;32m✅ Still You'll Earn Good Points Too If you are running only on VPS on Non-GPU Computers! 💰💰\e[0m"
     echo "==================================================="
-    echo -e "1) \e[36m 🎮 Install Gaianet For NVIDIA GPU (RTX 20/30/40/50 Series Support) \e[0m"
-    echo -e "2) \e[36m 🖥️ Install Gaianet For VPS & Without NVIDIA GPU Computers \e[0m"
-    echo -e "3) \e[33m 🔄 Restart GaiaNet Node \e[0m"
-    echo -e "4) \e[33m ⏹️ Stop GaiaNet Node \e[0m"
-    echo -e "5) \e[34m 💬 Chat with Non-GPU Domain (For VPS Users & NON-GPU Users) \e[0m"
-    echo -e "6) \e[34m 🤖 Chat with GPU-Node Domain (Only for GPU NODE Users) \e[0m"
-    echo -e "7) \e[35m 🔍 Switch to GaiaChatBot Screen \e[0m"
-    echo -e "8) \e[35m 🔙 Return to GaiaNet Main Menu \e[0m"
+
+    echo -e "\n\e[1mPress a number to perform an action:\e[0m\n"
+    echo -e "1) \e[1;36m 🎮 Install Gaianet For NVIDIA GPU (RTX 20/30/40/50 Series Support) \e[0m"
+    echo -e "2) \e[1;36m 🖥️ Install Gaianet For VPS & Without NVIDIA GPU Computers \e[0m"
+    echo -e "3) \e[1;33m 🔄 Restart GaiaNet Node \e[0m"
+    echo -e "4) \e[1;33m ⏹️ Stop GaiaNet Node \e[0m"
+    echo -e "5) \e[1;34m 💬 Chat with Non-GPU Domain (For VPS Users & NON-GPU Users) \e[0m"
+    echo -e "6) \e[1;34m 🤖 Chat with GPU-Node Domain (Only for GPU NODE Users) \e[0m"
+    echo -e "7) \e[1;35m 🔍 Switch to GaiaChatBot Screen \e[0m"
+    echo -e "8) \e[1;35m 🔙 Return to GaiaNet Main Menu \e[0m"
     echo "==================================================="
-    echo -e "\e[31m⚠️  DANGER ZONE:\e[0m"
-    echo -e "9) \e[31m 🗑️ Uninstall GaiaNet Node (Risky Operation) \e[0m"
+
+    echo -e "\e[1;31m⚠️  DANGER ZONE:\e[0m"
+    echo -e "9) \e[1;31m 🗑️ Uninstall GaiaNet Node (Risky Operation) \e[0m"
     echo "==================================================="
-    echo -e "\e[31m❌ TERMINATE ALL ACTIVE SCREENS:\e[0m"
-    echo -e "10) \e[31m Terminate All Active Screens \e[0m"
+
+    echo -e "\e[1;31m❌ TERMINATE ALL ACTIVE SCREENS:\e[0m"
+    echo -e "10) \e[1;31m 🚨 Terminate All Active Screens \e[0m"
     echo "==================================================="
+
     read -p "Enter your choice: " choice
 
     case $choice in
