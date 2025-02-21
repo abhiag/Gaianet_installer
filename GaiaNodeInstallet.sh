@@ -57,10 +57,14 @@ while true; do
             gaianet stop
             ;;
         5)
-            if screen -list | grep -q "gaiabot"; then
-                echo "Gaiabot screen session already running. Switching now..."
-                screen -d gaiabot
-                screen -r gaiabot
+            echo "Checking for active screen sessions..."
+            screen -list
+            echo "Enter the screen name you want to switch to (or press Enter to start a new session):"
+            read screen_name
+            if [[ -n "$screen_name" ]] && screen -list | grep -q "$screen_name"; then
+                echo "Switching to $screen_name..."
+                screen -d "$screen_name"
+                screen -r "$screen_name"
             else
                 echo "Starting ChatBot for VPS & Non-GPU Users in a new screen session..."
                 screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh && ./gaiabotga.sh'
@@ -68,10 +72,14 @@ while true; do
             fi
             ;;
         6)
-            if screen -list | grep -q "gaiabot"; then
-                echo "Gaiabot screen session already running. Switching now..."
-                screen -d gaiabot
-                screen -r gaiabot
+            echo "Checking for active screen sessions..."
+            screen -list
+            echo "Enter the screen name you want to switch to (or press Enter to start a new session):"
+            read screen_name
+            if [[ -n "$screen_name" ]] && screen -list | grep -q "$screen_name"; then
+                echo "Switching to $screen_name..."
+                screen -d "$screen_name"
+                screen -r "$screen_name"
             else
                 echo "Starting ChatBot for GPU NODE Users in a new screen session..."
                 screen -dmS gaiabot bash -c 'rm -rf gaiabotga1.sh gaiabotga.sh; curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh && ./gaiabotga1.sh'
