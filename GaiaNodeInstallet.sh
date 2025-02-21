@@ -3,12 +3,12 @@
 while true; do
     clear
     echo "==================================================="
-    echo -e "\e[36m 🚀🚀 GAIANET NODE INSTALLER BY GACRYPTO 🚀🚀 \e[0m"
+    echo -e " \e[36m🚀🚀 GAIANET NODE INSTALLER BY GACRYPTO 🚀🚀\e[0m"
     echo "==================================================="
     echo -e "\e[33m📌 NOTE: If you have an 🎮 NVIDIA GPU, keep your computer running for at least 20-24 hours for Great results. 🚀🚀\e[0m"
     echo -e "\e[33m💰💰 Believe me - You'll farm higher Gaia Points! 💰💰\e[0m"
     echo "==================================================="
-    echo -e "\e[32m ✅ Still You'll Earn Good Points Too If you are running only on VPS on Non-GPU Computers! 💰💰\e[0m"
+    echo -e "\e[1;5;32m✅ Still You'll Earn Good Points Too If you are running only on VPS on Non-GPU Computers! 💰💰\e[0m"
     echo "==================================================="
     echo -e "\nPress a number to perform an action:\n"
     echo -e "1) \e[32m Install Gaianet For NVIDIA GPU (RTX 20/30/40/50 Series Support) \e[0m"
