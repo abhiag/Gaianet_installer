@@ -81,6 +81,8 @@ while true; do
                     echo "❌ Error: Failed to download gaiabotga.sh."
                 fi'
             fi
+            sleep 2
+            screen -d -r gaiabot
             ;;
         6)
             echo "Switching to Gaiabot screen..."
