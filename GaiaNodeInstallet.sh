@@ -119,8 +119,10 @@ while true; do
                 done
                 echo "Enter the number to switch to the corresponding screen (or type 'Exit' to return to the main menu):"
                 read screen_choice
-                if [[ "$screen_choice" == "Exit" ]]; then
-                    echo "❌ Exiting..."
+                    if [[ "$screen_choice" == "3" || "$screen_choice" == "Exit" ]]; then
+                    echo "🔄 Returning to the main menu..."
+                    rm -rf GaiaNodeInstallet.sh
+                    curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstallet.sh && chmod +x GaiaNodeInstallet.sh && ./GaiaNodeInstallet.sh
                     continue
                 elif [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
                     selected_screen=${active_screens[screen_choice-1]}
