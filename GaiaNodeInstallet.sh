@@ -130,7 +130,7 @@ while true; do
             echo "Invalid choice. Please try again."
             ;;
 
-      10)
+      9)
             echo -e "\e[31m🚨 WARNING: This will terminate all active screen sessions!\e[0m"
             read -p "Are you sure you want to proceed? (yes/no) " confirm
             if [[ "$confirm" == "yes" ]]; then
