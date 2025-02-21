@@ -58,17 +58,20 @@ while true; do
             ;;
         5|6)
             echo "Checking for active screen sessions..."
-            active_screens=($(screen -list | grep -o '[0-9]*\.gaiabot' | cut -d. -f1))
+            mapfile -t active_screens < <(screen -list | grep -o '[0-9]*\.[^ ]*')
             
             if [[ ${#active_screens[@]} -gt 0 ]]; then
                 echo "Active screens detected:"
                 for i in "${!active_screens[@]}"; do
-                    echo "$((i+1))) Screen ID: ${active_screens[i]}"
+                    screen_id=$(echo "${active_screens[i]}" | cut -d. -f1)
+                    screen_name=$(echo "${active_screens[i]}" | cut -d. -f2)
+                    echo "$((i+1))) Screen ID: $screen_id - Name: $screen_name"
                 done
                 echo "Enter the number to switch to the corresponding screen:"
                 read screen_choice
                 if [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
-                    screen_id=${active_screens[screen_choice-1]}
+                    selected_screen=${active_screens[screen_choice-1]}
+                    screen_id=$(echo "$selected_screen" | cut -d. -f1)
                     echo "Switching to screen ID $screen_id..."
                     screen -d -r "$screen_id"
                 else
@@ -107,4 +110,3 @@ while true; do
     esac
     read -p "Press Enter to return to the main menu..."
 done
-
