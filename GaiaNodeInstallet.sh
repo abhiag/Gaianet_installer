@@ -5,28 +5,26 @@ while true; do
     echo "==================================================="
     echo -e "\e[36m 🚀🚀 GAIANET NODE INSTALLER BY GACRYPTO 🚀🚀 \e[0m"
     echo "==================================================="
-    echo "\nPress a number to perform an action:\n"
-    echo "1) Install Gaianet For NVIDIA GPU (RTX 20/30/40/50 Series Support)"
-    echo "2) Install Gaianet For VPS & Without NVIDIA GPU Computers"
-    echo "3) Restart GaiaNet Node"
-    echo "4) Stop GaiaNet Node"
-    echo "5) Chat with Non-GPU Domain (For VPS Users & NON-GPU Users)"
-    echo "6) Chat with GPU-Node Domain (Only for GPU NODE Users)"
-    echo "7) Switch to GaiaChatBot Screen"
-    echo "8) Return to GaiaNet Main Menu"
-    echo "==================================================="
     echo -e "\e[33m📌 NOTE: If you have an 🎮 NVIDIA GPU, keep your computer running for at least 20-24 hours for Great results. 🚀🚀\e[0m"
     echo -e "\e[33m💰💰 Believe me - You'll farm higher Gaia Points! 💰💰\e[0m"
     echo "==================================================="
     echo -e "\e[32m ✅ Still You'll Earn Good Points Too If you are running only on VPS on Non-GPU Computers! 💰💰\e[0m"
     echo "================================================="
-    echo -e "\e[31m ⚠️  WARNING: Uninstalling will completely remove GaiaNet Node from your system!\e[0m"
-    echo -e "\e[31m    Proceed only if you are sure!\e[0m"
-    echo "9) 🗑️ Uninstall GaiaNet Node (Risky Operation)"
+    echo "\nPress a number to perform an action:\n"
+    echo "1) \e[32m Install Gaianet For NVIDIA GPU (RTX 20/30/40/50 Series Support) \e[0m"
+    echo "2) \e[32m Install Gaianet For VPS & Without NVIDIA GPU Computers \e[0m"
+    echo "3) \e[33m Restart GaiaNet Node \e[0m"
+    echo "4) \e[33m Stop GaiaNet Node \e[0m"
+    echo "5) \e[34m Chat with Non-GPU Domain (For VPS Users & NON-GPU Users) \e[0m"
+    echo "6) \e[34m Chat with GPU-Node Domain (Only for GPU NODE Users) \e[0m"
+    echo "7) \e[35m Switch to GaiaChatBot Screen \e[0m"
+    echo "8) \e[35m Return to GaiaNet Main Menu \e[0m"
     echo "==================================================="
-    echo -e "\e[35m🌍 Follow GA Crypto for Updates & Support:\e[0m"
-    echo -e "\e[35m🔹 Telegram: https://t.me/GaCryptOfficial\e[0m"
-    echo -e "\e[35m🔹 Twitter/X: @GACryptoO\e[0m"
+    echo -e "\e[31m⚠️  DANGER ZONE:\e[0m"
+    echo "9) \e[31m 🗑️ Uninstall GaiaNet Node (Risky Operation) \e[0m"
+    echo "==================================================="
+    echo -e "\e[31m❌ TERMINATE ALL ACTIVE SCREENS:\e[0m"
+    echo "10) \e[31m Terminate All Active Screens \e[0m"
     echo "==================================================="
     read -p "Enter your choice: " choice
 
@@ -58,10 +56,7 @@ while true; do
             ;;
         5|6)
             echo "Checking for active screen sessions..."
-            
-            # Fetch active screens and store in an array
             mapfile -t active_screens < <(screen -ls | grep -o '[0-9]*\.[^ ]*')
-
             if [[ ${#active_screens[@]} -gt 0 ]]; then
                 echo "🔍 Active screens detected:"
                 for i in "${!active_screens[@]}"; do
@@ -69,16 +64,12 @@ while true; do
                     screen_name=$(echo "${active_screens[i]}" | cut -d. -f2)
                     echo "$((i+1))) Screen ID: $screen_id - Name: $screen_name"
                 done
-                
-                # Prompt user for selection
                 echo -e "\nEnter a number to switch to an existing screen, or just press Enter to create a new session:"
                 read screen_choice
             else
                 echo "🚀 No active screens found. Creating a new GaiaChatBot session..."
                 screen_choice=""
             fi
-
-            # If user presses Enter, create a new session
             if [[ -z "$screen_choice" ]]; then
                 screen -dmS gaiabot bash -c 'curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh && ./gaiabotga.sh'
                 echo "✅ New GaiaChatBot session started. Switching automatically..."
@@ -111,6 +102,11 @@ while true; do
             else
                 echo "Uninstallation aborted."
             fi
+            ;;
+        10)
+            echo "❌ Terminating all active screen sessions..."
+            screen -ls | awk '/[0-9]+\./ {print $1}' | xargs -I {} screen -X -S {} quit
+            echo "✅ All active screens terminated."
             ;;
         *)
             echo "Invalid choice. Please try again."
