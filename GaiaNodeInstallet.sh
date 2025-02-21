@@ -59,31 +59,53 @@ while true; do
             gaianet stop
             ;;
         5)
-            echo "Detecting system configuration..."
-            if command -v nvcc &> /dev/null || command -v nvidia-smi &> /dev/null; then
-                echo "✅ NVIDIA GPU detected. Running GPU-optimized Domain chat..."
-                rm -rf ~/gaiabotga1.sh
-                screen -dmS gaiabot bash -c '
-                curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh;
-                if [ -f "gaiabotga1.sh" ]; then
-                    ./gaiabotga1.sh
-                else
-                    echo "❌ Error: Failed to download gaiabotga1.sh."
-                fi'
+    echo "Detecting system configuration..."
+    if command -v nvcc &> /dev/null || command -v nvidia-smi &> /dev/null; then
+        echo "✅ NVIDIA GPU detected. Running GPU-optimized Domain Chat..."
+        script_name="gaiabotga1.sh"
+    else
+        echo "⚠️ No GPU detected. ✅ Running Non-GPU Domain Chat..."
+        script_name="gaiabotga.sh"
+    fi
+
+    rm -rf ~/$script_name
+
+    # Check for existing GaiaBot screens
+    existing_screens=$(screen -ls | grep gaiabot | awk '{print $1}')
+
+    if [ -n "$existing_screens" ]; then
+        echo "✅ Found existing GaiaBot screen sessions:"
+        select screen_choice in $existing_screens "Start New Session" "Exit"; do
+            if [[ "$screen_choice" == "Start New Session" ]]; then
+                echo "🚀 Starting a new GaiaBot session..."
+                break
+            elif [[ "$screen_choice" == "Exit" ]]; then
+                echo "❌ Exiting..."
+                exit
+            elif [[ -n "$screen_choice" ]]; then
+                echo "🔄 Switching to selected screen: $screen_choice"
+                screen -r "$screen_choice"
+                exit
             else
-                echo "⚠️ No GPU detected. ✅ Running Non-GPU Domain Chat..."
-                rm -rf ~/gaiabotga.sh
-                screen -dmS gaiabot bash -c '
-                curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh;
-                if [ -f "gaiabotga.sh" ]; then
-                    ./gaiabotga.sh
-                else
-                    echo "❌ Error: Failed to download gaiabotga.sh."
-                fi'
+                echo "⚠️ Invalid choice. Please try again."
             fi
-            sleep 2
-            screen -d -r gaiabot
-            ;;
+        done
+    fi
+
+    # If no existing screen was selected, start a new one
+    screen -dmS gaiabot bash -c '
+    curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/'"$script_name"' && chmod +x '"$script_name"';
+    if [ -f "'"$script_name"'" ]; then
+        ./'"$script_name"'
+        exec bash  # Keeps the session open
+    else
+        echo "❌ Error: Failed to download '"$script_name"'."
+        sleep 10  # Pause before exit
+    fi'
+
+    sleep 2
+    screen -r gaiabot
+    ;;
         6)
             echo "Switching to Gaiabot screen..."
             screen -d -r gaiabot
