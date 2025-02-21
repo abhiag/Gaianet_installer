@@ -30,7 +30,7 @@ while true; do
     echo "==================================================="
     read -p "Enter your choice: " choice
 
-case $choice in
+    case $choice in
         1)
             echo "Installing GaiaNet with NVIDIA GPU support..."
             rm -rf Gaia_gpu_nongpu.sh
@@ -104,36 +104,9 @@ case $choice in
                 echo "Uninstallation aborted."
             fi
             ;;
-        10)
-            echo "Checking for active screen sessions..."
-            mapfile -t active_screens < <(screen -list | grep -o '[0-9]*\.[^ ]*')
-            
-            if [[ ${#active_screens[@]} -gt 0 ]]; then
-                echo "Active screens detected:"
-                for i in "${!active_screens[@]}"; do
-                    screen_id=$(echo "${active_screens[i]}" | cut -d. -f1)
-                    screen_name=$(echo "${active_screens[i]}" | cut -d. -f2)
-                    echo "$((i+1))) Screen ID: $screen_id - Name: $screen_name"
-                done
-                echo "Enter the number to terminate the corresponding screen:"
-                read screen_choice
-                if [[ "$screen_choice" =~ ^[0-9]+$ ]] && (( screen_choice > 0 && screen_choice <= ${#active_screens[@]} )); then
-                    selected_screen=${active_screens[screen_choice-1]}
-                    screen_id=$(echo "$selected_screen" | cut -d. -f1)
-                    echo "Terminating screen ID $screen_id..."
-                    screen -S "$screen_id" -X quit
-                    echo "Screen session $screen_id terminated."
-                else
-                    echo "Invalid selection. Returning to menu."
-                fi
-            else
-                echo "No active screens found."
-            fi
-            ;;
         *)
             echo "Invalid choice. Please try again."
             ;;
     esac
     read -p "Press Enter to return to the main menu..."
 done
-
