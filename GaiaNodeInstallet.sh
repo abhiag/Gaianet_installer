@@ -33,13 +33,38 @@ while true; do
 
     read -p "Enter your choice: " choice
 
-        case $choice in
+   case $choice in
+        1)
+            echo "Installing GaiaNet with NVIDIA GPU support..."
+            rm -rf Gaia_gpu_nongpu.sh
+            curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/Gaia_gpu_nongpu.sh
+            chmod +x Gaia_gpu_nongpu.sh
+            ./Gaia_gpu_nongpu.sh
+            ;;
+        2)
+            echo "Installing GaiaNet without GPU support..."
+            rm -rf Gaia_gpu_nongpu.sh
+            curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/Gaia_gpu_nongpu.sh
+            chmod +x Gaia_gpu_nongpu.sh
+            ./Gaia_gpu_nongpu.sh
+            ;;
+        3)
+            echo "Restarting GaiaNet Node..."
+            gaianet stop
+            gaianet init
+            gaianet start
+            gaianet info
+            ;;
+        4)
+            echo "Stopping GaiaNet Node..."
+            gaianet stop
+            ;;
         5|6)
             echo "Checking for active screen sessions..."
             mapfile -t active_screens < <(screen -list | grep -o '[0-9]*\.[^ ]*')
 
             if [[ ${#active_screens[@]} -gt 0 ]]; then
-                echo " 🔎 Active screens detected:"
+                echo "Active screens detected:"
                 for i in "${!active_screens[@]}"; do
                     screen_id=$(echo "${active_screens[i]}" | cut -d. -f1)
                     screen_name=$(echo "${active_screens[i]}" | cut -d. -f2)
@@ -66,7 +91,7 @@ while true; do
             # Detect GPU presence and start the appropriate chat
             if command -v nvcc &> /dev/null || command -v nvidia-smi &> /dev/null; then
                 echo "✅ NVIDIA GPU detected. Running GPU-optimized chat..."
-                [ -f ~/gaiabotga1.sh ] && rm -rf ~/gaiabotga1.sh
+                rm -rf ~/gaiabotga1.sh
                 screen -dmS gaiabot bash -c '
                 curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga1.sh && chmod +x gaiabotga1.sh;
                 if [ -f "gaiabotga1.sh" ]; then
@@ -76,7 +101,7 @@ while true; do
                 fi'
             else
                 echo "⚠️ No GPU detected. Running non-GPU chat..."
-                [ -f ~/gaiabotga.sh ] && rm -rf ~/gaiabotga.sh
+                rm -rf ~/gaiabotga.sh
                 screen -dmS gaiabot bash -c '
                 curl -O https://raw.githubusercontent.com/abhiag/Gaia_Node/main/gaiabotga.sh && chmod +x gaiabotga.sh;
                 if [ -f "gaiabotga.sh" ]; then
@@ -96,10 +121,31 @@ while true; do
             curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstaller.sh && chmod +x GaiaNodeInstaller.sh && ./GaiaNodeInstaller.sh
             exit
             ;;
+        9)
+            echo -e "\e[31m⚠️ WARNING: This will completely remove GaiaNet Node from your system!\e[0m"
+            read -p "Are you sure you want to proceed? (yes/no) " confirm
+            if [[ "$confirm" == "yes" ]]; then
+                echo "🗑️ Uninstalling GaiaNet Node..."
+                curl -sSfL 'https://github.com/GaiaNet-AI/gaianet-node/releases/latest/download/uninstall.sh' | bash
+                echo -e "\e[32m✅ GaiaNet Node has been successfully removed.\e[0m"
+            else
+                echo "❌ Uninstallation aborted."
+            fi
+            ;;
+        10)
+            echo -e "\e[31m🚨 WARNING: This will terminate all active screen sessions!\e[0m"
+            read -p "Are you sure you want to proceed? (yes/no) " confirm
+            if [[ "$confirm" == "yes" ]]; then
+                echo "🔴 Terminating all active screen sessions..."
+                screen -ls | awk '/[0-9]+\./ {print $1}' | xargs -r screen -X -S kill
+                echo -e "\e[32m✅ All screen sessions have been terminated.\e[0m"
+            else
+                echo "❌ Operation canceled."
+            fi
+            ;;
         *)
             echo "Invalid choice. Please try again."
             ;;
     esac
     read -p "Press Enter to return to the main menu..."
 done
-
