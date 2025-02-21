@@ -60,39 +60,53 @@ while true; do
             ;;
         5)
             echo "Detecting system configuration..."
-            if command -v nvcc &> /dev/null || command -v nvidia-smi &> /dev/null; then
-                echo "✅ NVIDIA GPU detected. Running GPU-optimized Domain Chat..."
-                script_name="gaiabotga1.sh"
-            else
-                echo "⚠️ No GPU detected. ✅ Running Non-GPU Domain Chat..."
-                script_name="gaiabotga.sh"
-            fi
 
-            rm -rf ~/$script_name
+# Check if screen is installed, install if not
+if ! command -v screen &> /dev/null; then
+    echo "⚠️ 'screen' not found. Installing..."
+    sudo apt-get update && sudo apt-get install screen -y
+fi
 
-            # Check for existing GaiaBot screens
-            existing_screens=$(screen -ls | grep gaiabot | awk '{print $1}')
+# Detect NVIDIA GPU
+if command -v nvcc &> /dev/null || command -v nvidia-smi &> /dev/null; then
+    echo "✅ NVIDIA GPU detected. Running GPU-optimized Domain Chat..."
+    script_name="gaiabotga1.sh"
+else
+    echo "⚠️ No GPU detected. ✅ Running Non-GPU Domain Chat..."
+    script_name="gaiabotga.sh"
+fi
 
-            if [ -n "$existing_screens" ]; then
-                echo "✅ Found existing GaiaBot screen sessions:"
-                select screen_choice in $existing_screens "Start New Session" "Exit"; do
-                    if [[ "$screen_choice" == "Start New Session" ]]; then
-                        echo "🚀 Starting a new GaiaBot session..."
-                        break
-                    elif [[ "$screen_choice" == "Exit" ]]; then
-                        rm -rf GaiaNodeInstallet.sh
-                        curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstallet.sh
-                        chmod +x GaiaNodeInstallet.sh
-                        exec ./GaiaNodeInstallet.sh  # Replace current process with the installer
-                    elif [[ -n "$screen_choice" ]]; then
-                        echo "🔄 Switching to selected screen: $screen_choice"
-                        screen -r "$screen_choice"
-                        exit
-                    else
-                        echo "⚠️ Invalid choice. Please try again."
-                    fi
-                done
-            fi
+rm -rf ~/$script_name
+
+# Check for existing GaiaBot screen sessions
+existing_screens=$(screen -ls | grep gaiabot | awk '{print $1}')
+
+if [ -n "$existing_screens" ]; then
+    echo "✅ Found existing GaiaBot screen sessions:"
+    select screen_choice in $existing_screens "Start New Session" "Exit"; do
+        case "$screen_choice" in
+            "Start New Session")
+                echo "🚀 Starting a new GaiaBot session..."
+                break
+                ;;
+            "Exit")
+                rm -rf GaiaNodeInstallet.sh
+                curl -O https://raw.githubusercontent.com/abhiag/Gaianet_installer/main/GaiaNodeInstallet.sh
+                chmod +x GaiaNodeInstallet.sh
+                exec ./GaiaNodeInstallet.sh  # Replace current process with the installer
+                ;;
+            *)
+                if [[ -n "$screen_choice" ]]; then
+                    echo "🔄 Switching to selected screen: $screen_choice"
+                    screen -r "$screen_choice"
+                    exit
+                else
+                    echo "⚠️ Invalid choice. Please try again."
+                fi
+                ;;
+        esac
+    done
+fi
 
             # If no existing screen was selected, start a new one
             screen -dmS gaiabot bash -c '
