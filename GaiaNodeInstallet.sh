@@ -18,15 +18,20 @@ while true; do
     echo -e "3) \e[1;94m 🤖 Chat with Gaia Domain Automatically \e[0m"
     echo -e "4) \e[1;95m 🔍 Switch to GaiaChatBot Screen \e[0m"
     echo "==================================================="
+
     echo -e "5) \e[1;33m 🔄 Restart GaiaNet Node \e[0m"
     echo -e "6) \e[1;33m ⏹️ Stop GaiaNet Node \e[0m"
     echo "==================================================="
+    
+    echo -e "7) \e[1;36m 🔍 Check Your Gaia Node ID & Device ID \e[0m"
+    echo "==================================================="
+    
     echo -e "\e[1;31m⚠️  DANGER ZONE:\e[0m"
-    echo -e "7) \e[1;31m 🗑️ Uninstall GaiaNet Node (Risky Operation) \e[0m"
+    echo -e "8) \e[1;31m 🗑️ Uninstall GaiaNet Node (Risky Operation) \e[0m"
     echo "==================================================="
 
     echo -e "\e[1;31m❌ TERMINATE ALL ACTIVE SCREENS:\e[0m"
-    echo -e "8) \e[1;31m 🚨 Terminate All Active Screens \e[0m"
+    echo -e "9) \e[1;31m 🚨 Terminate All Active Screens \e[0m"
     echo "==================================================="
 
     read -p "Enter your choice: " choice
@@ -152,18 +157,28 @@ while true; do
                 break  # Exit the loop if no screens are active
             fi
             ;;
-        5)
+        7)
+            # Display Gaia Node and Device ID
+            echo -e "Checking Your Gaia Node ID & Device ID..."
+            gaianet_info=$(gaianet info 2>/dev/null)
+            if [[ -n "$gaianet_info" ]]; then
+                echo "$gaianet_info"
+            else
+                echo "❌ GaiaNet is not installed or configured properly."
+            fi
+            ;;
+        8)
             echo "Restarting GaiaNet Node..."
             gaianet stop
             gaianet init
             gaianet start
             gaianet info
             ;;
-        6)
+        9)
             echo "Stopping GaiaNet Node..."
             gaianet stop
             ;;
-        7)
+        10)
             echo "⚠️ WARNING: This will completely remove GaiaNet Node from your system!"
             read -p "Are you sure you want to proceed? (yes/no) " confirm
             if [[ "$confirm" == "yes" ]]; then
@@ -173,7 +188,7 @@ while true; do
                 echo "Uninstallation aborted."
             fi
             ;;
-        8)
+        11)
             echo -e "\e[31m🚨 WARNING: This will terminate all active 'gaiabot' screen sessions!\e[0m"
             read -p "Are you sure you want to proceed? (yes/no) " confirm
 
