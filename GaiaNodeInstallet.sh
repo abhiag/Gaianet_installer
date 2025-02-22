@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Check if screen is installed
+if ! command -v screen &> /dev/null; then
+    echo "❌ Screen is not installed. Installing screen..."
+    sudo apt-get install -y screen
+else
+    echo "✅ Screen is already installed."
+fi
+
 while true; do
     clear
     echo "==================================================="
